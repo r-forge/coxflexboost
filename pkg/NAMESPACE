@@ -1,6 +1,6 @@
 import(mboost)
 
-export(cfboost, boost_control, mstop,
+export(cfboost, boost_control, mstop, risk, freq.sel,
        bbs, bbsTime, bols, bolsTime, rSurvTime)
 
 S3method(cfboost, formula)
@@ -8,13 +8,17 @@ S3method(cfboost, formula)
 S3method(coef, cfboost)
 S3method(fitted, cfboost)
 S3method(print, cfboost)
+S3method(summary, cfboost)
 S3method(predict, cfboost)
 S3method(plot, cfboost)
 S3method(mstop, cfboost)
 S3method("[", cfboost)
+S3method(risk, cfboost)
 
 S3method(print, inbag)
 S3method(plot, inbag)
 S3method(print, oobag)
 S3method(plot, oobag)
+
+S3method(predict, baselearner)
 

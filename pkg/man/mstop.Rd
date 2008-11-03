@@ -41,7 +41,7 @@ mstop(object, ...)
   risk-type and \code{\link{cfboost}} for the specification of
   validation samples. }
 \examples{
-## add something here
+## see for example ?cfboost for usage of mstop()
 }
 
 \keyword{ methods }

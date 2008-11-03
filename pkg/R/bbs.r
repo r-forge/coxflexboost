@@ -7,9 +7,7 @@ bbsTime <- function(...){
 }
 
 bbs <- function(x, z = NULL, knots = 20, degree = 3, differences = 2, df = 4,
-                   center = FALSE, xname = NULL, zname = NULL, lambda = NULL, timedep = FALSE) {
-    ## df determines lambda corresponding to the degrees of freedom in the first iteration
-
+                center = FALSE, xname = NULL, zname = NULL, timedep = FALSE) {
     cc <- mboost:::complete_cases(x = x, z = z)
 
     if (is.null(xname)) xname <- deparse(substitute(x))
@@ -38,7 +36,7 @@ bbs <- function(x, z = NULL, knots = 20, degree = 3, differences = 2, df = 4,
         nk <- n.kn(n)
         ### ADDED: maximal 20 knots (to reduce computational burden)
         if (nk > 20){
-            warning("Maximal 20 knots allowed. Number of knots set to 20")
+            warning("Number of (inner) ", sQuote("knots"), " should not exceed 20 to keep the computational burden low.")
             nk <- 20
         }
         knots <- seq(from = min(x, na.rm = TRUE),
@@ -53,7 +51,7 @@ bbs <- function(x, z = NULL, knots = 20, degree = 3, differences = 2, df = 4,
     if (length(knots) == 1) {
         ### ADDED: maximal 20 knots (to reduce computational burden)
         if (knots > 20){
-            warning("Maximal 20 knots allowed. Number of knots set to 20")
+            warning("Number of (inner) ", sQuote("knots"), " should not exceed 20 to keep the computational burden low.")
             knots <- 20
         }
         knots <- seq(from = min(x, na.rm = TRUE),
@@ -102,13 +100,12 @@ bbs <- function(x, z = NULL, knots = 20, degree = 3, differences = 2, df = 4,
         newX(x = newdata[[xname]], z = newdata[[zname]], na.rm = FALSE)
     }
 
+    lambda <- mboost:::df2lambda(X, df = df, dmat = K, weights =rep(1,nrow(X)))
+
     attr(X, "designMat") <- designMat
     attr(X, "df") <- df
     attr(X, "lambda") <- lambda
-    if (is.null(lambda)) lambda <- 1
     attr(X, "pen") <- lambda * K
-    ### ATTENTION: pen is assumed to be lambda * K
-    ### so one needs make a call to df2lambda and store this in lambda and pen
     attr(X, "timedep") <- timedep
     attr(X, "coefs") <- rep(0, ncol(X))
     attr(X, "predict") <- predictfun

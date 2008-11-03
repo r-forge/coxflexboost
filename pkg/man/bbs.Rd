@@ -10,14 +10,13 @@
 }
 \usage{
 bbs(x, z = NULL, knots = 20, degree = 3, differences = 2, df = 4,
-    center = FALSE, xname = NULL, zname = NULL, lambda = NULL,
-    timedep = FALSE)
+    center = FALSE, xname = NULL, zname = NULL, timedep = FALSE)
 bbsTime(\dots)
 }
 
 \arguments{
   \item{x}{ factor or numeric. A vector containing data. }
-  \item{z}{ numeric. A vector containing data. }
+  \item{z}{ factor or numeric. A vector containing data. }
   \item{knots}{ a single numerical value defines the number of
     equidistant interior knots of the P-spline, a vector defines the
     knots itself, or \code{NULL}, in which case the number of interior
@@ -37,9 +36,6 @@ bbsTime(\dots)
       et al.} for details. }
   \item{xname}{ optional. Name of the variable given in \code{x}. }
   \item{zname}{ optional. Name of the variable given in \code{z}. }
-  \item{lambda}{ numeric. Alternative way to specify the smoothness of
-    the P-spline base-learner. Higher values of \code{lambda} correspond
-    to smoother  (i.e., \dQuote{weaker}) base-learners. }
   \item{timedep}{ logic. If \code{timedep = TRUE} the base-learner is
     taken to be time-dependent, i.e., \code{x} must be a time. For more
     details see below. }
@@ -54,8 +50,9 @@ bbsTime(\dots)
   and in the later case, the covariate with a (potential) time-dependent
   effect is specified as \code{z}.
 
-  NOTE: ATM \code{lambda} is ignored (and if in addition \code{df} is given this
-  should issue a warning)!
+  In most settings the number of \code{knots} should not exceed 20,
+  to keep the computational burden in a reasonable dimension. Thus,
+  a \code{\link{warning}} is issued if more knots are used.
 }
 \value{
   An object of class \code{baselearner} (and class \code{bbs}) is
@@ -65,24 +62,24 @@ bbsTime(\dots)
   The attributes are mainly for internal use. They consist, for example,
   of the degrees of freedom \code{df}. The corresponding value for
   \code{lambda} and the penalty (\code{pen}) are stored as further
-  attributes (after a call to \code{mboost:::df2lambda}).
-  The current coefficient estimates are stored in the base-learner
-  as \code{attr(\dots,"coefs")}.
+  attributes. The current coefficient estimates are stored in
+  the base-learner as \code{attr(\dots,"coefs")}.
 }
 \note{
-  Base-learners (especially some attributes) should not be used
-  outside a call to \code{\link{cfboost}()}, as some attributes need to be
-  computed and set correctly first (as e.g., \code{lambda} and \code{pen}).
+  The degrees of freedom \code{df} are used to compute the corresponding
+  smoothing parameter for the used P-spline. As this shows to be
+  difficult for survival models, an approximation is used to compute the
+  smoothing parameter. For more details see \cite{Hofner et al.}
 }
 \references{
   ~~ PUT TECH.REP. HERE ~~
 
   Thomas Kneib, Torsten Hothorn and Gerhard Tutz (2008),
   Variable selection and model choice in geoadditive regression models.
-  \emph{Biometrics}. To appear. 
+  \emph{Biometrics}. To appear.
 }
 \author{ Benjamin Hofner }
-\seealso{ \code{\link{bols}} for linear base-learners and 
+\seealso{ \code{\link{bols}} for linear base-learners and
   \code{\link{cfboost}} for the boosting algorithm. }
 \examples{
 x1 <- rnorm(100)

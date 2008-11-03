@@ -60,7 +60,9 @@
 \author{ Benjamin Hofner }
 \seealso{ for other methods for \code{cfboost} objects see \code{\link[CoxFlexBoost]{methods}}. }
 \examples{
-## add an example here
+## see for example ?CoxFlexBoost-package
+## for the usage of risk() and plot(risk()) etc.
+
 }
 
 \keyword{ methods }

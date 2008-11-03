@@ -3,7 +3,7 @@
 ##########################################
 
 ## convenience function for prediction
-predict.baselearner <- function(object, newdata = NULL, newcoefs = NULL){
+predict.baselearner <- function(object, newdata = NULL, newcoefs = NULL, ...){
     ###
     # object        base-learner used for prediction
     # x             new x-values (default: NULL)
@@ -20,10 +20,11 @@ predict.baselearner <- function(object, newdata = NULL, newcoefs = NULL){
 }
 
 ## prediction for time-dependent variables on time_grid, using z-values from base-learner (if present)
-predict_td <- function(object, ...)
-    UseMethod("predict_td")
+#predict_td <- function(object, ...)
+#    UseMethod("predict_td")
 
-predict_td.baselearner <- function(object, time_grid){
+#predict_td.baselearner <- function(object, time_grid){
+predict_td <- function(object, time_grid){
     ###
     # object        base-learner for which to predict
     # time_grid     a list of time grids
@@ -68,20 +69,6 @@ getcoefs <-  function(object, nu = 1){
 
 ## function for calculation of the initial fit (i.e. offset)
 getoffset <- function(y, which.offset = "mle"){
-#    if (which.offset == "mle"){
-#        logLH <- function(f, y){
-#            ## risk for constant fit "f"
-#            sum((y[,2] * f - exp(f) * y[,1]))
-#        }
-#        if (plot) {
-#            f <- seq(interval[1],interval[2], length = 300)
-#            llh <- rep(NA, length = length(f))
-#            for (i in 1:length(f)) llh[i] <- logLH(f[i],y)
-#            plot(f, llh, type = "l")
-#        }
-#        os <- optimize(logLH, interval = interval, y = y, maximum = TRUE)$maximum
-#        return(os)
-#    }
     if (which.offset == "mle"){
         return(log(sum(y[,2]) / sum(y[,1])))
     }
@@ -95,14 +82,13 @@ getoffset <- function(y, which.offset = "mle"){
 ## (adapted version from mboost)
 boost_control <- function(mstop = 100, nu = 0.1, maxit = 30000, risk = c("inbag", "oobag", "none"),
                           which.offset = c("mle", "zero"), savedata = TRUE,
-                          center = FALSE, trace = TRUE, hardStop = TRUE) {
+                          trace = TRUE, hardStop = TRUE) {
 
     which.offset <- match.arg(which.offset)
     risk <- match.arg(risk)
     RET <- list(mstop = mstop, nu = nu, maxit = maxit,
                 risk = risk, which.offset = which.offset,
-                savedata = savedata, center = center, trace = trace,
-                hardStop = hardStop)
+                savedata = savedata, trace = trace, hardStop = hardStop)
     class(RET) <- c("boost_control")
     RET
 }

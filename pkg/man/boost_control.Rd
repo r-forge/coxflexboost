@@ -6,7 +6,7 @@
 }
 \usage{
 boost_control(mstop = 100, nu = 0.1, maxit = 30000, risk = c("inbag","oobag", "none"),
-    which.offset = c("mle", "zero"), savedata = TRUE, center = FALSE, trace = TRUE, hardStop = TRUE)
+    which.offset = c("mle", "zero"), savedata = TRUE, trace = TRUE, hardStop = TRUE)
 }
 \arguments{
   \item{mstop}{ integer. Initial number of boosting iterations }
@@ -25,8 +25,6 @@ boost_control(mstop = 100, nu = 0.1, maxit = 30000, risk = c("inbag","oobag", "n
     (\code{which.offset = "mle"}) or zero (\code{which.offset = "zero"}).}
   \item{savedata}{ logic. Indicating whether the data should be saved in
     the returned \code{cfboost} object. }
-  \item{center}{ logic. indicating if the numerical covariates should be mean
-    centered before fitting. ??? Is this implemented ???  }
   \item{trace}{ logic. Determining if status information should be
     printed during estimation of the model. }
   \item{hardStop}{ logic. Indicates if the initial value of

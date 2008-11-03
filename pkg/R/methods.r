@@ -70,17 +70,18 @@ plot.cfboost <- function(x, which = NULL, ask = TRUE && dev.interactive(),
         on.exit(par(op))
     }
     for (i in which){
-        x <- get("x", environment(attr(tmp[[i]],"predict")))
-        xname <- get("xname", environment(attr(tmp[[i]],"predict")))
+        ix <- get("x", environment(attr(tmp[[i]],"predict")))
+        ixname <- get("xname", environment(attr(tmp[[i]],"predict")))
         zname <- get("zname", environment(attr(tmp[[i]],"predict")))
         if (!is.null(zname) & zname != "NULL")
-            xname <- paste(xname, " (as interaction with ", zname, ")", sep="")
-        xorder <- order(x)
-        plot(x[xorder], attr(tmp[[i]], "predict")(x$coefs[[i]])[xorder], type = type, ylab = ylab, xlab = xname)
+            ixname <- paste(ixname, " (as interaction with ", zname, ")", sep="")
+        ixorder <- order(ix)
+        plot(ix[ixorder], attr(tmp[[i]], "predict")(x$coefs[[i]])[ixorder], type = type, ylab = ylab, xlab = ixname)
         abline(h = 0, lty = 3)
-        if (add_rug) rug(x)
+        if (add_rug) rug(ix)
     }
 }
+
 
 ## methods: extract coefficients from cfboost objects
 coef.cfboost <- function(object, ...){
@@ -90,7 +91,7 @@ coef.cfboost <- function(object, ...){
 }
 
 ## methods: prediction
-predict.cfboost <- function(object, newdata = NULL, type = c("hazard", "log-hazard"), trace = TRUE, ...) {
+predict.cfboost <- function(object, newdata = NULL, type = c("hazard", "log-hazard"), ...) {
     type <- match.arg(type)
     if (type == "hazard"){
         hazard <- exp(object$predict(newdata = newdata, mstop = mstop(object, opt=FALSE), ...))

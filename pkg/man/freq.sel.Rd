@@ -26,6 +26,8 @@ freq.sel(object)
 ## model needs to be estimated in advance
 freq.sel(cfb_model)
 }
+
+## see ?CoxFlexBoost-package for complete example
 }
 
 \keyword{ misc }

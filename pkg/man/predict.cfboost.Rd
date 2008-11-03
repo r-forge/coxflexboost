@@ -9,7 +9,7 @@
 }
 \usage{
 \method{fitted}{cfboost}(object, type = c("hazard", "log-hazard"), ...)
-\method{predict}{cfboost}(object, newdata = NULL, type = c("hazard", "log-hazard"), trace = TRUE, ...)
+\method{predict}{cfboost}(object, newdata = NULL, type = c("hazard", "log-hazard"), ...)
 }
 
 \arguments{
@@ -18,7 +18,6 @@
           which to predict. }
   \item{type}{ character. Specifies the type of the returned prediction
     (either the hazard rate or the log hazard rate). }
-  \item{trace}{ ??? What does this option do ??? }
   \item{\dots}{ Further arguments to be passed to subsequent functions. }
 }
 \details{
@@ -48,7 +47,7 @@ X[,3] <- runif(400, -1, 1)
 
 ## time-dependent hazard rate
 lambda <- function(time, x){
-  exp(log(time) + 0.7 * x[1] + x[2]^2)
+  exp(0 * time + 0.7 * x[1] + x[2]^2)
 }
 
 ## specify censoring function

@@ -42,8 +42,9 @@
 \details{
   The function \code{print} prints basic information about the model
   specified by \code{object} and returns the argument \code{object}
-  invisible. \code{summary} is just a wrapper to the \code{print}
-  function.
+  invisible. \code{summary} is a wrapper to the \code{print}
+  function put gives additional information on the frequency of
+  selection of the base-learners (see \code{\link{freq.sel}}).
 
   \code{plot} gives a simple plotting interface for the estimated
   effects of the model \code{object}.
@@ -58,14 +59,74 @@
   iteration.
 }
 \author{ Benjamin Hofner }
-\seealso{ \code{\link{cfboost}} for model fitting. }
+\seealso{ \code{\link{cfboost}} for model fitting.
+  \code{\link{freq.sel}} for the selection frequencies of base-learners.}
 \examples{
-## add more examples here
-\dontrun{
-## estimate model first
-(stop.opt <- mstop(cfb_model))
-cfb_model <- cfb_model[op.opt]
+## a simple example
+
+#################
+# simulate data #
+#################
+
+set.seed(4321)
+
+## sample covariates first
+X <- matrix(NA, nrow=400, ncol=3)
+X[,1] <- runif(400, -1, 1)
+X[,2] <- runif(400, -1, 1)
+X[,3] <- runif(400, -1, 1)
+
+## time-constant hazard rate
+lambda <- function(time, x){
+  exp(0.1 * time - 0.7 * x[1] + 0.5 * x[2])
 }
+
+## specify censoring function
+cens_fct <- function(time, mean_cens){
+  censor_time <- rexp(n = length(time), rate = 1/mean_cens)
+  event <- (time <= censor_time)
+  t_obs <- apply(cbind(time, censor_time), 1, min)
+  return(cbind(t_obs, event))
+}
+data <- rSurvTime(lambda, X, cens_fct, mean_cens = 5)
+
+##################
+# estimate model #
+##################
+
+ctrl <- boost_control( mstop = 80, risk="oobag")
+weights <- c(rep(1, 300), rep(0, 100))
+
+## non-censored observations (in-bag)
+sum(data$event[weights==1])/nrow(data[weights==1,])
+
+## fit (a simple) model
+model <- cfboost(Surv(time, event) ~ bolsTime(time) + bols(x.1) + bols(x.2) + bols(x.3),
+                 control = ctrl, data = data, weights = weights)
+
+#########################
+# processing the output #
+#########################
+
+## estimate optimal mstop
+(stop.opt <- mstop(model))
+model_opt <- model[stop.opt]
+
+model
+## summary for mstop = 100
+summary(model)
+## summary (with "optimal" mstop)
+summary(model_opt)
+
+## plot of baseline hazard
+plot(model_opt, which=1)
+## plot of x.1 und x.2
+par(mfrow=c(1,2))
+plot(model_opt, which = c(2,3), ask = FALSE)
+
+## extract coefficients
+coef(model_opt)
+## almost correct estimations
 }
 
 \keyword{ misc }

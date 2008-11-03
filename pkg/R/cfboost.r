@@ -33,16 +33,6 @@ cfboost_fit <- function(object, control = boost_control(), data, weights = NULL,
     y <- object$y
     if (!inherits(y, "Surv")) stop("response is not an object of class ", sQuote("Surv"))
 
-    ## compute lambda from initial df (for inbag observations)
-    for (i in 1:length(x)){
-        if (!is.null(attr(x[[i]], "pen"))){
-            lambda <- mboost:::df2lambda(x[[i]], df = attr(x[[i]], "df"), dmat = attr(x[[i]], "pen"),
-                                         weights = weights[1:nrow(x[[i]])])
-            attr(x[[i]], "lambda") <- lambda
-            attr(x[[i]], "pen") <- lambda * attr(x[[i]], "pen")
-        }
-    }
-
     ## hyper parameters
     mstop <- control$mstop
     risk <- control$risk

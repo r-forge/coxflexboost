@@ -1,3 +1,4 @@
+
 \name{bols}
 \alias{bols}
 \alias{bolsTime}
@@ -12,10 +13,10 @@
 bols(x, z = NULL, xname = NULL, zname = NULL, timedep = FALSE)
 bolsTime(\dots)
 }
-%- maybe also 'usage' for other objects documented here.
+
 \arguments{
   \item{x}{ factor or numeric. A vector containing data. }
-  \item{z}{ numeric. A vector containing data. }
+  \item{z}{ factor or numeric. A vector containing data. }
   \item{xname}{ optional. Name of the variable given in \code{x}. }
   \item{zname}{ optional. Name of the variable given in \code{z}. }
   \item{timedep}{ logic. If \code{timedep = TRUE} the base-learner is
@@ -39,7 +40,7 @@ bolsTime(\dots)
   elements are returned as attributes (see \code{attr}) of the object.
   The attributes are mainly for internal use and are, e.g.,
   the current coefficient estimates (\code{coefs}) and a logical
-  (\code{timedep}) indicating whether the base-learner specifies 
+  (\code{timedep}) indicating whether the base-learner specifies
   a time-varying effect or not.
 }
 \references{
@@ -47,7 +48,7 @@ bolsTime(\dots)
 
   Thomas Kneib, Torsten Hothorn and Gerhard Tutz (2008),
   Variable selection and model choice in geoadditive regression models.
-  \emph{Biometrics}. To appear. 
+  \emph{Biometrics}. To appear.
 }
 \author{ Benjamin Hofner }
 \seealso{ \code{\link{bbs}} for P-spline base-learners and
