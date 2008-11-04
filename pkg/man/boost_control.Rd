@@ -2,7 +2,7 @@
 \alias{boost_control}
 \title{ Specify Controls for the Boosting Algorithm }
 \description{
-  ~~ A concise (1-5 lines) description of what the function does. ~~
+  Specify control and tuning parameters of the boosting algorithm.
 }
 \usage{
 boost_control(mstop = 100, nu = 0.1, maxit = 30000, risk = c("inbag","oobag", "none"),
@@ -32,9 +32,6 @@ boost_control(mstop = 100, nu = 0.1, maxit = 30000, risk = c("inbag","oobag", "n
       TRUE}) or if it should be increased if the algorithm did not
     converge until \code{mstop}. The latter is only possible with
     \code{risk = "oobag"}. }
-}
-\details{
-  ~~ If necessary, more details than the description above ~~
 }
 \value{
   An object of class \code{boost_control} is returned (as a list).

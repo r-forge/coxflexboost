@@ -19,7 +19,7 @@ cfboost(x, \dots)
 \arguments{
   \item{x}{ an object to be pased to \code{cfboost.formula}. }
   \item{formula}{ \code{\link{formula}} of the model to be fit.
-    The response \code{y} must be of class \code{\link{Surv}}. The model
+    The response \code{y} must be of class \code{\link[survival]{Surv}}. The model
     is specified using the base-learner \code{\link{bols}} and
     \code{\link{bbs}}.}
   \item{data}{ data frame. Contains the data of the model that is to be fitted. }
@@ -54,7 +54,7 @@ cfboost(x, \dots)
   \item{fit}{vector of fitted values (in the last iteration).}
   \item{offset}{offset value.}
   \item{control}{control parameters as specified.}
-  \item{response}{the specified response variable (an object of class \code{\link{Surv}}).}
+  \item{response}{the specified response variable (an object of class \code{\link[survival]{Surv}}).}
   \item{risk}{vector of the risk (negative log likelihood) computed on
   the training or validation sample (see \code{\link{boost_control}}).}
   \item{weights}{weights used for model fitting.}

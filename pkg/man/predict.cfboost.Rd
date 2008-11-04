@@ -13,7 +13,7 @@
 }
 
 \arguments{
-  \item{object}{ object of class \code{cfboost} }
+  \item{object}{ object of class \code{cfboost}. }
   \item{newdata}{ optional. a data frame in which to look for variables with
           which to predict. }
   \item{type}{ character. Specifies the type of the returned prediction

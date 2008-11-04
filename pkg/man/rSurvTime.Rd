@@ -16,13 +16,13 @@ rSurvTime(lambda, x, cens_fct, upper = 1000, ..., file = NULL)
 \arguments{
   \item{lambda}{ function. Baseline hazard \eqn{\lambda(t, x)}{lambda(t,x)}
     where time must be first argument. }
-  \item{x}{ matrix. (Sampled) values for covariates (without time) }
-  \item{cens_fct}{ function. Function to compute (random) censoring }
-  \item{upper}{ upper boundary of the interval the random survival times fall into }
+  \item{x}{ matrix. (Sampled) values for covariates (without time). }
+  \item{cens_fct}{ function. Function to compute (random) censoring. }
+  \item{upper}{ upper boundary of the interval the random survival times fall into. }
   \item{\dots}{ further arguments to be passed to \code{lambda} or \code{cens_fct}. }
   \item{file}{ character. name of the data file the generated data set should be stored into
                (e.g., "survtimes.RData") or NULL if the dataset should directly be
-               returned in R }
+               returned in R. }
 }
 \details{
   By specifying an (arbitrary) hazard rate and a censoring function it
@@ -31,8 +31,8 @@ rSurvTime(lambda, x, cens_fct, upper = 1000, ..., file = NULL)
   time-varying effects in the hazard rate.
 
   The function \code{lambda} needs to be vectorized in its first
-  argument, the time. To achieve this even if no the hazard rate is
-  specified as time-constant a nice trick is to spefify \code{0 * time}
+  argument, the time. To achieve this even if the hazard rate is
+  specified as beeing time-constant a nice trick is to spefify \code{0 * time}
   explizitly in lambda (see example for more details).
   Another important remark is that \code{lambda} expects \code{x} to be
   a vector, i.e., we just pass one row of the matrix of coefficients to
