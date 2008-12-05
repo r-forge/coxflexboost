@@ -67,10 +67,17 @@ cfboost_fit <- function(object, control = boost_control(), data, weights = NULL,
     if (trace)
         cat("Offset: ", offset, "\n")
 
-    df_est <- matrix(NA, nrow = mstop, ncol = length(x)) # matrix of estimated degrees of freedom
 
     mstart <- 1
     hSi <- 1     # number of iterations in the repeat loop
+    df_est <- matrix(NA, nrow = mstop, ncol = length(x)) # matrix of estimated degrees of freedom
+
+    for (i in 1:length(x)){
+        if (!is.null( attr(x[[i]], "lambda"))){
+            attr(x[[i]],"lambda") <-  attr(x[[i]], "lambda")(y, offset)
+            attr(x[[i]],"pen") <- attr(x[[i]],"pen")(attr(x[[i]],"lambda"))
+        }
+    }
 
     ##################################
     #### start boosting iteration ####
@@ -86,7 +93,7 @@ cfboost_fit <- function(object, control = boost_control(), data, weights = NULL,
             dummy_ens <- ens[1:m]   # get the first m-1 selected base-learners
             dummy_ens[m] <- i       # and set the m-th base-learner temporarily to i
             ## try to compute the (component-wise) penalized MLE
-            dummy <- try(PMLE(y, x, offset, fit, dummy_ens, nu, maxit, trace = trace))
+            dummy <- try(PMLE(y, x, offset, fit, dummy_ens, nu, maxit))
             if (inherits(dummy, "try-error")) next
             coefs[[i]] <- dummy$par
             maxll[i] <- dummy$maxll

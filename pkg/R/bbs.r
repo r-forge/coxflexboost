@@ -102,10 +102,27 @@ bbs <- function(x, z = NULL, knots = 20, degree = 3, differences = 2, df = 4,
 
     lambda <- mboost:::df2lambda(X, df = df, dmat = K, weights =rep(1,nrow(X)))
 
+    df2lambda <- function(y, offset){
+        ## FIXME: was ist mit nu und maxit ##
+        ## FIXME: bessere Funktionenname
+        dummy <- helper_fct(y, X, offset, pen = K)
+        df2l <- function(lambda, df){
+            tmp <- dummy(lambda)$F %*% solve(dummy(lambda)$F_pen)
+            sum(diag(tmp)) - df
+        }
+        ## FIXME: lambda gibt es später nicht mehr - wie ist obere Intervallgrenze? ##
+        result <- uniroot(f= df2l, interval = c(0,lambda + 100), df=df)
+        result$root
+    }
+
+    penalty <- function(lambda){
+        lambda * K
+    }
+
     attr(X, "designMat") <- designMat
     attr(X, "df") <- df
-    attr(X, "lambda") <- lambda
-    attr(X, "pen") <- lambda * K
+    attr(X, "lambda") <- df2lambda
+    attr(X, "pen") <- penalty
     attr(X, "timedep") <- timedep
     attr(X, "coefs") <- rep(0, ncol(X))
     attr(X, "predict") <- predictfun

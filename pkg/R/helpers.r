@@ -152,3 +152,69 @@ boost_dpp <- function(formula, data, weights = NULL, na.action = na.omit, ...) {
         return(RET_inbag)
     }
 }
+
+## helper function for df2lambda as used in bbs()
+helper_fct <- function(y, x, offset, pen, nu = 0.1, maxi= 30000, subdivisions = 100){
+
+    time <- y[,1]
+    delta <- y[,2]
+
+    ## number of coefficients to estimate
+    coefs <- rep(0, ncol(x))
+
+    if(attr(x, "timedep")){
+        ## make grid and compute grid-width if there is ANY time-dependent base-learner
+        sub = subdivisions      ## subdivisions of time
+        n = length(time)        ## number of observations
+
+        grid <- function(upper, length){
+            ## helper function to compute grid
+            seq(from = 0, to = upper, length = length)
+        }
+
+        ## make grid
+        grid <- lapply(time, grid, length = sub)
+
+        trapezoid_width <- rep(NA, n)
+        for (i in 1:n)
+            trapezoid_width[i] <- grid[[i]][2]  # = second element, as first element == 0 and the grid equidistant for every i
+    } else {
+        grid = NULL
+        trapezoid_width = NULL
+    }
+
+    ## build design matrix for currently added base-learner
+    if (attr(x, "timedep")){
+        xd <- unlist(grid)
+        xname <- get("xname", environment(attr(x, "predict")))
+        zd <- get("z", environment(attr(x, "predict")))
+        if (!is.null(zd)){
+            zname <- get("zname", environment(attr(x, "predict")))
+            zd <- rep(zd, each = length(grid[[1]]))
+            newdata <- data.frame(cbind(xd, zd))
+            names(newdata) <- c(xname, zname)
+        } else {
+            newdata <- data.frame(xd)
+            names(newdata) <- c(xname)
+        }
+        desMat <- attr(x,"designMat")(newdata = newdata)
+    } else {
+        desMat <- attr(x,"designMat")()
+    }
+
+    exp_offset <- exp(offset)
+    exp_pred_tconst <- 1
+    exp_pred_td <- 1
+
+    F_pen <- function(lambda, coefficients=NULL){
+        if(!is.null(coefficients))
+            coefs <- coefficients
+        Fisher_mat <- integr_fisher(x, coefs, desMat,
+                                    predictions = list(offset = exp_offset, tconst = exp_pred_tconst, td = exp_pred_td),
+                                    controls = list(grid = grid, trapezoid_width = trapezoid_width, upper = time, nu = nu, which = "fisher"))
+        if (is.null(pen)) pen <- 0
+        return(list(F = Fisher_mat, F_pen = Fisher_mat + lambda * pen))
+    }
+
+    return(F_pen)
+}

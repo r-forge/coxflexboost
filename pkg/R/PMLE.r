@@ -3,7 +3,7 @@
 ###################
 
 ## Function for penalized ML estimation
-PMLE <- function(y, x, offset, fit, ens, nu, maxit, subdivisions = 100, estimation = TRUE, trace){
+PMLE <- function(y, x, offset, fit, ens, nu, maxit, subdivisions = 100, estimation = TRUE){
 
     time <- y[,1]
     delta <- y[,2]

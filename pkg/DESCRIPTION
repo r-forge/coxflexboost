@@ -1,7 +1,7 @@
 Package: CoxFlexBoost
 Type: Package
 Title: Boosting Flexible Cox Models (with Time-Varying Effects)
-Version: 0.5-0
+Version: 0.6-0
 Date: 2008-10-24
 Author: Benjamin Hofner
 Maintainer: Benjamin Hofner <benjamin.hofner@imbe.med.uni-erlangen.de>
