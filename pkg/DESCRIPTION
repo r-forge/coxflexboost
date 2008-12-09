@@ -2,7 +2,7 @@ Package: CoxFlexBoost
 Type: Package
 Title: Boosting Flexible Cox Models (with Time-Varying Effects)
 Version: 0.6-0
-Date: 2008-10-24
+Date: 2008-12-09
 Author: Benjamin Hofner
 Maintainer: Benjamin Hofner <benjamin.hofner@imbe.med.uni-erlangen.de>
 Description: Likelihood-based boosting approach to fit flexible,

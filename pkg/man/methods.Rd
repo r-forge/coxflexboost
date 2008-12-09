@@ -58,7 +58,6 @@
   \code{object[i]} returns the \code{cfboost} model-object from the i-th
   iteration.
 }
-\author{ Benjamin Hofner }
 \seealso{ \code{\link{cfboost}} for model fitting.
   \code{\link{freq.sel}} for the selection frequencies of base-learners.}
 \examples{

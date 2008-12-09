@@ -67,18 +67,20 @@ bbsTime(\dots)
 }
 \note{
   The degrees of freedom \code{df} are used to compute the corresponding
-  smoothing parameter for the used P-spline. As this shows to be
-  difficult for survival models, an approximation is used to compute the
-  smoothing parameter. For more details see \cite{Hofner et al.}
+  smoothing parameter for the used P-spline. For more details see
+  \cite{Hofner et al.}.
 }
 \references{
-  ~~ PUT TECH.REP. HERE ~~
+  Benjamin Hofner, Torsten Hothorn and Thomas Kneib (2008),
+  Variable Selection and Model Choice in Structured Survival Models.
+  \emph{Department of Statistics, Technical Report No. 43}.
+  \url{http://epub.ub.uni-muenchen.de/7901/}
 
   Thomas Kneib, Torsten Hothorn and Gerhard Tutz (2008),
   Variable selection and model choice in geoadditive regression models.
   \emph{Biometrics}. To appear.
+  \url{http://epub.ub.uni-muenchen.de/2063/}
 }
-\author{ Benjamin Hofner }
 \seealso{ \code{\link{bols}} for linear base-learners and
   \code{\link{cfboost}} for the boosting algorithm. }
 \examples{

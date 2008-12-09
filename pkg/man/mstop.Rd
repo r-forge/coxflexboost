@@ -36,7 +36,6 @@ mstop(object, ...)
 \value{
   The (optimal) number of boosting iterations is returned.
 }
-\author{ Benjamin Hofner }
 \seealso{ \code{\link{boost_control}} for the specification of
   risk-type and \code{\link{cfboost}} for the specification of
   validation samples. }

@@ -57,7 +57,6 @@
 
   \code{print} returns the given \code{object} invvisble.
 }
-\author{ Benjamin Hofner }
 \seealso{ for other methods for \code{cfboost} objects see \code{\link[CoxFlexBoost]{methods}}. }
 \examples{
 ## see for example ?CoxFlexBoost-package

@@ -1,3 +1,4 @@
+
 \name{rSurvTime}
 \alias{rSurvTime}
 
@@ -57,7 +58,6 @@ rSurvTime(lambda, x, cens_fct, upper = 1000, ..., file = NULL)
   Models.
   \emph{Statistics in Medicine}, \bold{24}, 1713--1723.
 }
-\author{ Benjamin Hofner }
 \note{ Note that the covariate values should not become too large as
   otherwise numerical problems may occure. A linear predictor in the
   range from -3 to 3 has shown to be sufficiently small.

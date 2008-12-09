@@ -1,0 +1,10 @@
+
+		CHANGES in `CoxFlexBoost' VERSION 0.6-0 (2008-12-09)
+  
+  o  changed computation of df2lambda
+
+  o  added TechReport to manuals
+
+ ______________________________________________________________________________
+
+	`CoxFlexBoost' version 0.5 published on r-forge (2008-10-31)

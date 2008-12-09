@@ -65,9 +65,11 @@ cfboost(x, \dots)
   \item{call}{the model call.}
 }
 \references{
-  ~~ PUT TECH.REP. HERE ~~
+  Benjamin Hofner, Torsten Hothorn and Thomas Kneib (2008),
+  Variable Selection and Model Choice in Structured Survival Models.
+  \emph{Department of Statistics, Technical Report No. 43}.
+  \url{http://epub.ub.uni-muenchen.de/7901/}
 }
-\author{ Benjamin Hofner }
 \seealso{ \code{\link{boost_control}} for the control arguments for
   \code{cfboost} and \code{\link{bols}} or \code{\link{bbs}} for the
   available base-learners.

@@ -16,8 +16,8 @@ features.
 \tabular{ll}{
 Package: \tab CoxFlexBoost\cr
 Type: \tab Package\cr
-Version: \tab 0.5-0\cr
-Date: \tab 2008-11-03\cr
+Version: \tab 0.6-0\cr
+Date: \tab 2008-12-09\cr
 License: \tab GPL\cr
 LazyLoad: \tab yes\cr
 }
@@ -34,7 +34,10 @@ LazyLoad: \tab yes\cr
 }
 
 \references{
-~~ PUT TECH.REP. HERE ~~
+  Benjamin Hofner, Torsten Hothorn and Thomas Kneib (2008),
+  Variable Selection and Model Choice in Structured Survival Models.
+  \emph{Department of Statistics, Technical Report No. 43}.
+  \url{http://epub.ub.uni-muenchen.de/7901/}
 }
 
 \examples{

@@ -32,7 +32,6 @@
   \code{predict} can be used to make predictions on new data sets and
   returns a vector of the predicted (log) hazard rates.
 }
-\author{ Benjamin Hofner }
 \seealso{ \code{\link{cfboost}} for the boosting procedure and
   \code{\link{bbs}} or \code{\link{bols}} for the specification of the base-learners.}
 \examples{

@@ -36,7 +36,6 @@ boost_control(mstop = 100, nu = 0.1, maxit = 30000, risk = c("inbag","oobag", "n
 \value{
   An object of class \code{boost_control} is returned (as a list).
 }
-\author{ Benjamin Hofner }
 \seealso{ \code{\link{cfboost}} }
 
 \keyword{ misc }

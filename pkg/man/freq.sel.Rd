@@ -19,7 +19,6 @@ freq.sel(object)
 \value{
   \code{freq.sel} returns a data.frame of class \code{fs}.
 }
-\author{ Benjamin Hofner }
 \seealso{ \code{\link{cfboost}} for model fitting and \code{\link[CoxFlexBoost]{methods}} for other methods for \code{cfboost} objects. }
 \examples{
 \dontrun{

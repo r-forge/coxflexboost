@@ -1,4 +1,3 @@
-
 \name{bols}
 \alias{bols}
 \alias{bolsTime}
@@ -44,13 +43,16 @@ bolsTime(\dots)
   a time-varying effect or not.
 }
 \references{
-  ~~ PUT TECH.REP. HERE ~~
+  Benjamin Hofner, Torsten Hothorn and Thomas Kneib (2008),
+  Variable Selection and Model Choice in Structured Survival Models.
+  \emph{Department of Statistics, Technical Report No. 43}.
+  \url{http://epub.ub.uni-muenchen.de/7901/}
 
   Thomas Kneib, Torsten Hothorn and Gerhard Tutz (2008),
   Variable selection and model choice in geoadditive regression models.
   \emph{Biometrics}. To appear.
+  \url{http://epub.ub.uni-muenchen.de/2063/}
 }
-\author{ Benjamin Hofner }
 \seealso{ \code{\link{bbs}} for P-spline base-learners and
   \code{\link{cfboost}} for the boosting algorithm. }
 \examples{

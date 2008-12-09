@@ -72,6 +72,7 @@ cfboost_fit <- function(object, control = boost_control(), data, weights = NULL,
     hSi <- 1     # number of iterations in the repeat loop
     df_est <- matrix(NA, nrow = mstop, ncol = length(x)) # matrix of estimated degrees of freedom
 
+    ## compute df2lambda which depends on the offset and on y
     for (i in 1:length(x)){
         if (!is.null( attr(x[[i]], "lambda"))){
             attr(x[[i]],"lambda") <-  attr(x[[i]], "lambda")(y, offset)
@@ -159,7 +160,7 @@ cfboost_fit <- function(object, control = boost_control(), data, weights = NULL,
 
     RET <- list(data = object,          ### original object
                 ensemble = ens,         ### selected base-learners
-                ensembless = ensss,  	 ### list of coefficients in each iteration
+                ensembless = ensss,     ### list of coefficients in each iteration
                 fit = fit,              ### vector of fitted values
                 offset = offset,        ### offset
                 control = control,      ### control parameters
