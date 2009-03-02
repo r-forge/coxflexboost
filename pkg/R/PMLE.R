@@ -13,7 +13,8 @@ PMLE <- function(y, x, offset, fit, ens, nu, maxit, subdivisions = 100, estimati
     ## number of coefficients to estimate
     coefs <- rep(0, ncol(x[[added_bl]]))
     ## get penalty for currently added base-learner
-    pen <- attr(x[[added_bl]], "pen")
+    if (estimation)
+        pen <- penalty(x[[added_bl]])
     ## get selected base-learners (uniquely)
     ens_uni <- unique(ens)
 

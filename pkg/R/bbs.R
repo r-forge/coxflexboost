@@ -8,7 +8,7 @@ bbsTime <- function(...){
 
 bbs <- function(x, z = NULL, knots = 20, degree = 3, differences = 2, df = 4,
                 center = FALSE, xname = NULL, zname = NULL, timedep = FALSE) {
-    cc <- mboost:::complete_cases(x = x, z = z)
+    cc <- complete_cases(x = x, z = z)
 
     if (is.null(xname)) xname <- deparse(substitute(x))
     if (is.null(zname)) zname <- deparse(substitute(z))
@@ -100,29 +100,35 @@ bbs <- function(x, z = NULL, knots = 20, degree = 3, differences = 2, df = 4,
         newX(x = newdata[[xname]], z = newdata[[zname]], na.rm = FALSE)
     }
 
-    lambda <- mboost:::df2lambda(X, df = df, dmat = K, weights =rep(1,nrow(X)))
+    lambda <- NULL
+    pen <- NULL
 
     df2lambda <- function(y, offset){
         ## FIXME: was ist mit nu und maxit ##
-        ## FIXME: bessere Funktionenname
         dummy <- helper_fct(y, X, offset, pen = K)
         df2l <- function(lambda, df){
             tmp <- dummy(lambda)$F %*% solve(dummy(lambda)$F_pen)
             sum(diag(tmp)) - df
         }
-        ## FIXME: lambda gibt es später nicht mehr - wie ist obere Intervallgrenze? ##
-        result <- uniroot(f= df2l, interval = c(0,lambda + 100), df=df)
+        upper <- 1000
+        while (TRUE){
+            result <- try(uniroot(f= df2l, interval = c(1,upper), df=df), silent=TRUE)
+            if (!inherits(result, "try-error")) break
+            upper <- upper * 100
+            if (upper == Inf) stop("could not solve ", sQuote("df2lambda()"))
+        }
+        lambda <<- result$root
+        pen <<- lambda * K
         result$root
-    }
-
-    penalty <- function(lambda){
-        lambda * K
     }
 
     attr(X, "designMat") <- designMat
     attr(X, "df") <- df
-    attr(X, "lambda") <- df2lambda
-    attr(X, "pen") <- penalty
+    attr(X, "df2lambda") <- df2lambda
+    attr(X, "lambda") <- getlambda <- function() {
+        if(!is.null(lambda)){ return(lambda) } else { stop("Call ", sQuote('attr( ,"df2lambda")'), " for ", sQuote("bbs()"), " base-learner first") }}
+    attr(X, "pen") <- getpen <- function() {
+        if(!is.null(pen)){ return(pen) } else { stop("Call ", sQuote('attr( ,"df2lambda")'), " for ", sQuote("bbs()"), " base-learner first") }}
     attr(X, "timedep") <- timedep
     attr(X, "coefs") <- rep(0, ncol(X))
     attr(X, "predict") <- predictfun

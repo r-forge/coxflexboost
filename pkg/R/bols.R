@@ -11,7 +11,7 @@ bols <- function(x, z = NULL, xname = NULL, zname = NULL, timedep=FALSE) {
     if (is.null(xname)) xname = deparse(substitute(x))
     if (is.null(zname)) zname = deparse(substitute(z))
 
-    cc <- mboost:::complete_cases(x = x, z = z)
+    cc <- complete_cases(x = x, z = z)
 
     newX <- function(x, z = NULL, na.rm = TRUE) {
         if (na.rm) {

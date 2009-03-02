@@ -16,8 +16,8 @@ features.
 \tabular{ll}{
 Package: \tab CoxFlexBoost\cr
 Type: \tab Package\cr
-Version: \tab 0.6-0\cr
-Date: \tab 2008-12-09\cr
+Version: \tab 0.7-0\cr
+Date: \tab 2009-03-XX\cr
 License: \tab GPL\cr
 LazyLoad: \tab yes\cr
 }

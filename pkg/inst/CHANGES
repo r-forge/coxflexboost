@@ -1,6 +1,17 @@
+		CHANGES in `CoxFlexBoost' VERSION 0.7-0 (2009-03-XX)
+
+  o  changed assignment and storrage of lambda and penalty in bbs objects
+
+  o  changed computations (of upper boundary) in df2lambda
+
+  o  changed dependencies: droped mboost (as it depends on many other packages)
+     and added modeltools instead
+
+  o  TODO: change integration
+
 
 		CHANGES in `CoxFlexBoost' VERSION 0.6-0 (2008-12-09)
-  
+
   o  changed computation of df2lambda
 
   o  added TechReport to manuals
