@@ -2,7 +2,7 @@
 ## Integration Using the Trapezoidal Rule ##
 ############################################
 
-integr <- function(x, coefs, desMat, predictions = list(), controls = list(), ...){
+integr <- function(old_coefs, added_td, coefs, desMat, predictions = list(), controls = list(), ...){
     ###
     # x             currently added base-learner
     # coefs         the current coefficients
@@ -20,9 +20,9 @@ integr <- function(x, coefs, desMat, predictions = list(), controls = list(), ..
 
     if (length(predictions$offset) != 1) stop(sQuote("offset"), " must be a single constant")
 
-    coefs <- coefs + controls$nu * attr(x, "coefs")
+    coefs <- coefs + controls$nu * old_coefs
     foo <- desMat %*% coefs
-    if(attr(x, "timedep")){
+    if(added_td){
         foo <- matrix(foo, nrow = length(controls$grid), ncol = length(controls$grid[[1]]), byrow = TRUE)
         predictions$td <- predictions$td * exp(foo)
     } else {

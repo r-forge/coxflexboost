@@ -19,7 +19,9 @@
 \method{print}{cfboost}(x, ...)
 \method{summary}{cfboost}(object, ...)
 \method{plot}{cfboost}(x, which = NULL, ask = TRUE && dev.interactive(),
-     type = "b", ylab = expression(f[partial]), add_rug = TRUE, ...)
+     type = "b", ylab = expression(f[partial]), add_rug = TRUE,
+     color.palette = c("heat.colors", "terrain.colors", "topo.colors",
+     "cm.colors", "rainbow", "none"), ...)
 \method{coef}{cfboost}(object, ...)
 \method{[}{cfboost}(object, i, ...)
 }
@@ -35,6 +37,12 @@
        details.}
   \item{ylab}{ A title for the y axis. }
   \item{add_rug}{ logic. Determines if \code{\link{rug}}s are added. }
+  \item{color.palette}{ character. Determines how time-varying effects
+       of non-binary covariates should be ploted. A color palette of
+       "heat.colors", "terrain.colors", "topo.colors", "cm.colors",
+       "rainbow" is specified (as character). See \code{\link{rainbow}}
+       for details. If "none" is specified, all observations are
+       printed in black. }
   \item{i}{ integer. Index specifying the model to extract. See example
        for more details.}
   \item{\dots}{ additional arguments (not used a.t.m.) }

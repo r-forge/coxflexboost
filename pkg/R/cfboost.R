@@ -72,11 +72,15 @@ cfboost_fit <- function(object, control = boost_control(), data, weights = NULL,
     df_est <- matrix(NA, nrow = mstop, ncol = length(x)) # matrix of estimated degrees of freedom
 
     ## compute df2lambda which depends on the offset and on y
+    if (trace)
+        cat("compute df2lambda .")
     for (i in 1:length(x)){
         if (!is.null( attr(x[[i]], "df"))){
             attr(x[[i]], "df2lambda")(y, offset)
+            if (trace) cat(".")
         }
     }
+    if (trace) cat("\n")
 
     ##################################
     #### start boosting iteration ####
@@ -84,7 +88,7 @@ cfboost_fit <- function(object, control = boost_control(), data, weights = NULL,
     repeat{
       for (m in mstart:mstop) {
         if (trace)
-          cat("Step ", m, "\n")
+          cat("Step ", m, "; Progress .")
 
         ## fit MLE component-wise
         for (i in 1:length(x)) {
@@ -98,7 +102,9 @@ cfboost_fit <- function(object, control = boost_control(), data, weights = NULL,
             maxll[i] <- dummy$maxll
             logLH[[i]] <- dummy$logLH
             if (!is.null(dummy$df)) df_est[m,i] <- dummy$df
+            if (trace) cat(".")
         }
+        if (trace) cat("\n")
         if (all(is.na(maxll)))
             stop("could not fit base learner in boosting iteration ", m)
 

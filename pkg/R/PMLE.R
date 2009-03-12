@@ -64,7 +64,7 @@ PMLE <- function(y, x, offset, fit, ens, nu, maxit, subdivisions = 100, estimati
     }
 
     ## build design matrix for currently added base-learner
-    if (attr(x[[added_bl]], "timedep")){
+    if (added_td <- attr(x[[added_bl]], "timedep")){
         xd <- unlist(grid)
         xname <- get("xname", environment(attr(x[[added_bl]], "predict")))
         zd <- get("z", environment(attr(x[[added_bl]], "predict")))
@@ -86,9 +86,12 @@ PMLE <- function(y, x, offset, fit, ens, nu, maxit, subdivisions = 100, estimati
     exp_pred_tconst <- exp(predictions_tconst * nu)
     exp_pred_td <- exp(predictions_td * nu)
 
+    old_coefs <- attr(x[[added_bl]], "coefs")
+
+
     logLH_pen <- function(coefs){
         log_lik <- sum(delta * (fit + x[[added_bl]] %*% coefs)
-                       - integr(x[[added_bl]], coefs, desMat,
+                       - integr(old_coefs, added_td, coefs, desMat,
                                 predictions = list(offset = exp_offset, tconst = exp_pred_tconst, td = exp_pred_td),
                                 controls = list(grid = grid, trapezoid_width = trapezoid_width, upper = time, nu = nu)))
         if (is.null(pen)) pen <- 0 else pen <- 0.5 * (coefs %*% pen %*% coefs)

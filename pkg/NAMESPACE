@@ -1,4 +1,3 @@
-#import(mboost)
 import(modeltools)
 
 export(cfboost, boost_control, mstop, risk, freq.sel,
@@ -23,3 +22,4 @@ S3method(plot, oobag)
 
 S3method(predict, baselearner)
 
+#useDynLib(CoxFlexBoost)

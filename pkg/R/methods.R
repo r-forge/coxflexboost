@@ -58,8 +58,10 @@ print.cfboost <- function(x, ...) {
 }
 
 ## methods: plot for cfboost objects
-plot.cfboost <- function(x, which = NULL, ask = TRUE && dev.interactive(),
-                          type = "b", ylab = expression(f[partial]), add_rug = TRUE, ...){
+plot.cfboost <- function(x, which = NULL, ask = TRUE && dev.interactive(), type = "b",
+                         ylab = expression(f[partial]), add_rug = TRUE,
+                         color.palette = c("heat.colors", "terrain.colors", "topo.colors", "cm.colors", "rainbow", "none"), ...){
+    color.palette <- match.arg(color.palette)
     tmp <- x$data$input
     class(tmp) <- "list"
 
@@ -76,7 +78,26 @@ plot.cfboost <- function(x, which = NULL, ask = TRUE && dev.interactive(),
         if (!is.null(zname) & zname != "NULL")
             ixname <- paste(ixname, " (as interaction with ", zname, ")", sep="")
         ixorder <- order(ix)
-        plot(ix[ixorder], attr(tmp[[i]], "predict")(x$coefs[[i]])[ixorder], type = type, ylab = ylab, xlab = ixname)
+        if (!attr(tmp[[i]], "timedep")){
+            plot(ix[ixorder], attr(tmp[[i]], "predict")(x$coefs[[i]])[ixorder], type = type, ylab = ylab, xlab = ixname)
+        } else {
+            iz <- get("z", environment(attr(tmp[[i]],"predict")))
+            if (!is.null(iz) && length(unique(iz))==2){ ## for time-varying effects of binary covariates z
+                sel <- (iz == sort(unique(iz))[2])[ixorder]
+                yi <- attr(tmp[[i]], "predict")(x$coefs[[i]])[ixorder]
+                plot(ix[ixorder][sel], yi[sel], type = type, ylab = ylab, xlab = ixname)
+                lines(ix[ixorder][!sel], yi[!sel], type = type)
+            } else {
+                if(!is.null(iz) && color.palette != "none"){  ## for time-varying effects of other covariates z (with colors for changing z)
+                    foo <- eval(parse(text=color.palette))
+                    colors <- factor(iz)
+                    levels(colors) <- foo(length(levels(colors)))
+                    plot(ix[ixorder], attr(tmp[[i]], "predict")(x$coefs[[i]])[ixorder], type = "p", col=as.character(colors), ylab = ylab, xlab = ixname)
+                } else {
+                    plot(ix[ixorder], attr(tmp[[i]], "predict")(x$coefs[[i]])[ixorder], type = "p", ylab = ylab, xlab = ixname)
+                }
+            }
+        }
         abline(h = 0, lty = 3)
         if (add_rug) rug(ix)
     }
@@ -157,3 +178,5 @@ print.fs <- function(x, ...){
     }
     invisible(x)
 }
+
+
