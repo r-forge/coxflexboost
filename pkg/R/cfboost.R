@@ -11,8 +11,9 @@ cfboost <- function(x, ...)
 cfboost.formula <- function(formula, data = list(), weights = NULL, na.action = na.omit,  control = boost_control(), ...) {
     ## construct design matrix etc.
     object <- boost_dpp(formula, data, weights, na.action)
-    ## fit the ensemble
     object$input <- object$menv@get("input")
+    object$data <- data
+    object$formula <- formula
     if (!is.null(weights))
         object$oob$input <- object$oob$menv@get("input")
     RET <- cfboost_fit(object, control = control, data = data, weights = weights, ...)
@@ -65,7 +66,7 @@ cfboost_fit <- function(object, control = boost_control(), data, weights = NULL,
 
     fit <- fit_oob <- offset <- getoffset(y, which.offset)
     if (trace)
-        cat("Offset: ", offset, "\n")
+        cat("Offset: ", offset, "\n\n")
 
     mstart <- 1
     hSi <- 1     # number of iterations in the repeat loop
@@ -73,14 +74,14 @@ cfboost_fit <- function(object, control = boost_control(), data, weights = NULL,
 
     ## compute df2lambda which depends on the offset and on y
     if (trace)
-        cat("compute df2lambda .")
+        cat("Compute df2lambda .")
     for (i in 1:length(x)){
         if (!is.null( attr(x[[i]], "df"))){
             attr(x[[i]], "df2lambda")(y, offset)
             if (trace) cat(".")
         }
     }
-    if (trace) cat("\n")
+    if (trace) cat("\n\n")
 
     ##################################
     #### start boosting iteration ####
@@ -88,7 +89,7 @@ cfboost_fit <- function(object, control = boost_control(), data, weights = NULL,
     repeat{
       for (m in mstart:mstop) {
         if (trace)
-          cat("Step ", m, "; Progress .")
+          cat("Step ", m, "; Progress .", sep="")
 
         ## fit MLE component-wise
         for (i in 1:length(x)) {
@@ -141,7 +142,7 @@ cfboost_fit <- function(object, control = boost_control(), data, weights = NULL,
             fit_oob <- fit_oob + nu *  oob$x[[xselect]] %*% coefs[[xselect]]
         }
       }
-      if (hardStop | risk != "oobag" | which.min(mrisk) < (mstop - mstop * 0.2/hSi) | hSi == 5) break
+      if (hardStop || risk != "oobag" || which.min(mrisk) < (mstop - mstop * 0.2/hSi) || hSi == 5) break
 
       ## else if minimum is at the end of the boosting algorithm,
       ## don't stop but proceed with boosting: Therefore, increase mstop

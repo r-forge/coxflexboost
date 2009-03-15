@@ -16,10 +16,7 @@ boost_control(mstop = 100, nu = 0.1, maxit = 30000, risk = c("inbag","oobag", "n
   \item{risk}{ character. Determines how the empirical risk should be
     computed. It can take the values \code{risk = "inbag"}, i.e., the risk is
     computed for the learning sample, \code{risk = "oobag"}, i.e., the risk is
-    computed for the validation sample and \code{risk = "none"}. At the moment
-    it is only reasonable to use the option \code{risk = "oobag"} as no other
-    means of determining the (optimal) stopping iteration is implemented
-    so far.}
+    computed for the validation sample and \code{risk = "none"}.}
   \item{which.offset}{ character. Indictating the choice of offset. This
     can be either the maximum likelihood estimator of the null model
     (\code{which.offset = "mle"}) or zero (\code{which.offset = "zero"}).}

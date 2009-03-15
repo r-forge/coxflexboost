@@ -27,10 +27,12 @@ LazyLoad: \tab yes\cr
 }
 
 \seealso{
-  Important functions include: \code{\link{rSurvTime}} for simulations,
+  Important functions include: \code{\link{rSurvTime}} for simulations
+  of survival times,
   \code{\link{cfboost}} for the boosting algorithm, \code{\link{bols}}
   and \code{\link{bbs}} for the base-learners and
-  \code{\link[CoxFlexBoost]{methods}} for methods to be used with results.
+  \code{\link[CoxFlexBoost]{methods}} for methods to be used with
+  results.
 }
 
 \references{

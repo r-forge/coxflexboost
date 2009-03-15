@@ -37,7 +37,7 @@
 print.cfboost <- function(x, ...) {
     cat("\n")
     cat("\t CoxFlexBoost: \n")
-    cat("\t Additive Survival Models with Time-Varying Effects\n")
+    cat("\t Structured Survival Models (with Time-Varying Effects)\n")
     cat("\t Fitted via Likelihood-Based Boosting\n")
     cat("\n")
     if (!is.null(x$call))

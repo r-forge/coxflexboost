@@ -57,7 +57,9 @@
 
   \code{print} returns the given \code{object} invvisble.
 }
-\seealso{ for other methods for \code{cfboost} objects see \code{\link[CoxFlexBoost]{methods}}. }
+\seealso{ for other methods for \code{cfboost} objects see
+  \code{\link[CoxFlexBoost]{methods}}.
+  See \code{\link{cv}} for cross-validated risk.}
 \examples{
 ## see for example ?CoxFlexBoost-package
 ## for the usage of risk() and plot(risk()) etc.

@@ -16,3 +16,7 @@ mstop.cfboost <- function(object, opt = TRUE, ...){
         return(mr$iteration)
     }
 }
+
+mstop.cv <- function(object, ...)
+    attr(object, "mstop")[which.min(colSums(object))]
+
