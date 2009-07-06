@@ -45,6 +45,12 @@
   sample which consists of observations with \code{weights == 1} and
   and an out-of-bag sample with \code{weights == 0}. The latter
   is used to determine the empirical risk (negative log likelihood).
+
+  If package \pkg{multicore} is available, \code{cv}
+  runs in parallel on cores/processors available. The scheduling
+  can be changed by the corresponding arguments of
+  \code{\link[multicore]{mclapply}} (via the dot arguments).
+  No trace output is given when running in parallel.
 }
 \value{
   \code{cv} returns an object of class \code{cv}, which consists of

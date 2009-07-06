@@ -4,9 +4,7 @@ cv <- function(object, ...)
 cv.cfboost <- function(object, folds, grid = c(1:mstop(object, opt=FALSE)), ...){
 
     oobrisk <- matrix(0, nrow = ncol(folds), ncol = length(grid))
-
     ctrl <- object$control
-
     ctrl$risk <- "oobag"
     # fehlt noch: ctrl$savedata <- FALSE
     # fehlt noch: ctrl$saveensss <- FALSE
@@ -18,6 +16,17 @@ cv.cfboost <- function(object, folds, grid = c(1:mstop(object, opt=FALSE)), ...)
     data <- object$data$data
     formula <- object$data$formula
 
+    myapply <- lapply
+    if (ctrl$parallel && require("multicore")) {
+        if (!multicore:::isChild()) {
+            myapply <- mclapply
+            if (ctrl$trace) {
+                ctrl$trace <- FALSE
+                cat("\n Running in parallel with `trace = FALSE'\n")
+            }
+        }
+    }
+
     ## free memory
     rm("object")
 
@@ -25,15 +34,17 @@ cv.cfboost <- function(object, folds, grid = c(1:mstop(object, opt=FALSE)), ...)
 
     dummyfct <- function(weights, control, data, formula, grid){
         i <<- i + 1
-        cat("\n>>> Fold ", i, "\n\n")
+        if (ctrl$trace) cat("\n>>> Fold ", i, "\n\n")
         model <- cfboost(formula, data = data, control = control, weights = weights)
         ret <- risk(model)[grid]
         rm("model")
         ret
     }
 
-    oobrisk <- apply(folds, 2, dummyfct, control = ctrl, data = data, formula = formula, grid = grid)
-    oobrisk <- t(oobrisk)
+    oobrisk <- myapply(1:ncol(folds), function(i)
+                       dummyfct(folds[,i], control = ctrl, data = data, formula = formula, grid = grid),
+                       ...)
+    oobrisk <- t(as.data.frame(oobrisk))
     oobrisk <- oobrisk/colSums(folds == 0)
     colnames(oobrisk) <- grid
     rownames(oobrisk) <- 1:nrow(oobrisk)

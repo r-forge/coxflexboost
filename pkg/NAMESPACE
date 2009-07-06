@@ -22,6 +22,7 @@ S3method(print, oobag)
 S3method(plot, oobag)
 S3method(print, cv)
 S3method(plot, cv)
+S3method(mstop, cv)
 
 S3method(predict, baselearner)
 

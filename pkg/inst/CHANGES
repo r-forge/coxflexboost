@@ -1,13 +1,17 @@
-		CHANGES in `CoxFlexBoost' VERSION 0.7-0 (2009-03-XX)
+		CHANGES in `CoxFlexBoost' VERSION 0.7-0 (2009-07-XX)
 
-  o  changed assignment and storrage of lambda and penalty in bbs objects
+  o  added support for package multicore for crossvalidation function "cv"
 
-  o  changed computations (of upper boundary) in df2lambda
+  o  added "center" argument and possibility to handle categorical covariates to bols()
+
+  o  changed assignment and storrage of lambda and penalty in bbs() objects
+
+  o  changed computations (of upper boundary) in df2lambda()
 
   o  changed dependencies: droped mboost (as it depends on many other packages)
      and added modeltools instead
 
-  o  improved plot.cfboost (for time-varying effects)
+  o  improved plot.cfboost() (for time-varying effects)
 
   o  TODO: change integration
 

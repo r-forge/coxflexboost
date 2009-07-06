@@ -82,13 +82,14 @@ getoffset <- function(y, which.offset = "mle"){
 ## (adapted version from mboost)
 boost_control <- function(mstop = 100, nu = 0.1, maxit = 30000, risk = c("inbag", "oobag", "none"),
                           which.offset = c("mle", "zero"), savedata = TRUE,
-                          trace = TRUE, hardStop = TRUE) {
+                          trace = TRUE,  parallel = require("multicore"), hardStop = TRUE) {
 
     which.offset <- match.arg(which.offset)
     risk <- match.arg(risk)
     RET <- list(mstop = mstop, nu = nu, maxit = maxit,
                 risk = risk, which.offset = which.offset,
-                savedata = savedata, trace = trace, hardStop = hardStop)
+                savedata = savedata, trace = trace, parallel = parallel,
+                hardStop = hardStop)
     class(RET) <- c("boost_control")
     RET
 }

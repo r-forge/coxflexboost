@@ -6,20 +6,30 @@ bolsTime <- function(...){
     bols(..., timedep=TRUE)
 }
 
-bols <- function(x, z = NULL, xname = NULL, zname = NULL, timedep=FALSE) {
+bols <- function(x, z = NULL, xname = NULL, zname = NULL, center = FALSE, df = NULL,
+                 timedep=FALSE, contrasts.arg = "contr.treatment") {
 
     if (is.null(xname)) xname = deparse(substitute(x))
     if (is.null(zname)) zname = deparse(substitute(z))
 
     cc <- complete_cases(x = x, z = z)
 
-    newX <- function(x, z = NULL, na.rm = TRUE) {
+    newX <- function(x, z = NULL, na.rm = TRUE){
         if (na.rm) {
             x <- x[cc]
             if (!is.null(z))
                 z <- z[cc]
         }
-        X <- model.matrix(~ x)
+
+        if (is.factor(x)) {
+            X <- model.matrix(~ x, contrasts.arg = list(x = contrasts.arg))
+        } else {
+            X <- model.matrix(~ x)
+        }
+
+        if (center)
+            X <- X[, -1, drop = FALSE]
+
         if (any(!cc) & !na.rm) {
             Xtmp <- matrix(NA, ncol = ncol(X), nrow = length(cc))
             Xtmp[cc,] <- X
