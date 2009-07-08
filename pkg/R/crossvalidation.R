@@ -6,8 +6,8 @@ cv.cfboost <- function(object, folds, grid = c(1:mstop(object, opt=FALSE)), ...)
     oobrisk <- matrix(0, nrow = ncol(folds), ncol = length(grid))
     ctrl <- object$control
     ctrl$risk <- "oobag"
-    # fehlt noch: ctrl$savedata <- FALSE
-    # fehlt noch: ctrl$saveensss <- FALSE
+    ctrl$savedata <- FALSE
+    ctrl$saveensss <- FALSE
 
     if (is.null(object$data))
         stop(sQuote("object"), " does not contain data. Estimate model with option ", sQuote("savedata = TRUE"))
@@ -30,20 +30,19 @@ cv.cfboost <- function(object, folds, grid = c(1:mstop(object, opt=FALSE)), ...)
     ## free memory
     rm("object")
 
-    i <- 0
-
     dummyfct <- function(weights, control, data, formula, grid){
-        i <<- i + 1
-        if (ctrl$trace) cat("\n>>> Fold ", i, "\n\n")
         model <- cfboost(formula, data = data, control = control, weights = weights)
         ret <- risk(model)[grid]
         rm("model")
         ret
     }
 
-    oobrisk <- myapply(1:ncol(folds), function(i)
-                       dummyfct(folds[,i], control = ctrl, data = data, formula = formula, grid = grid),
-                       ...)
+    oobrisk <- myapply(1:ncol(folds),
+                       function(i){
+                           cat("\n>>> Fold ", i, "started. \n\n")
+                           dummyfct(folds[,i], control = ctrl, data = data, formula = formula, grid = grid)
+                       }
+                       , ...)
     oobrisk <- t(as.data.frame(oobrisk))
     oobrisk <- oobrisk/colSums(folds == 0)
     colnames(oobrisk) <- grid

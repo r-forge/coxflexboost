@@ -34,6 +34,10 @@ cfboost_fit <- function(object, control = boost_control(), data, weights = NULL,
     y <- object$y
     if (!inherits(y, "Surv")) stop("response is not an object of class ", sQuote("Surv"))
 
+    if (!control$savedata){ ## free memory
+        rm("object")
+    }
+
     ## hyper parameters
     mstop <- control$mstop
     risk <- control$risk
@@ -55,7 +59,10 @@ cfboost_fit <- function(object, control = boost_control(), data, weights = NULL,
 
     ## the ensemble
     ens <- rep(NA, mstop)
-    ensss <- vector(mode = "list", length = mstop)
+    if (control$saveensss)
+        ensss <- vector(mode = "list", length = mstop)
+    else
+        ensss <- NULL
 
     ## vector of empirical risks for all boosting iterations
     mrisk <- numeric(mstop)
@@ -120,7 +127,8 @@ cfboost_fit <- function(object, control = boost_control(), data, weights = NULL,
 
         ## save the model, i.e., the selected coefficient and base-learner
         ens[m] <- xselect
-        ensss[[m]] <- coefs[[xselect]]
+        if (control$saveensss)
+            ensss[[m]] <- coefs[[xselect]]
 
         ## save updated parameters in x[[xselect]]
         x[[xselect]] <- updatecoefs(x[[xselect]], coefs[[xselect]])
@@ -163,8 +171,7 @@ cfboost_fit <- function(object, control = boost_control(), data, weights = NULL,
 
     class(mrisk) <- risk
 
-    RET <- list(data = object,          ### original object
-                ensemble = ens,         ### selected base-learners
+    RET <- list(ensemble = ens,         ### selected base-learners
                 ensembless = ensss,     ### list of coefficients in each iteration
                 fit = fit,              ### vector of fitted values
                 offset = offset,        ### offset
@@ -175,6 +182,8 @@ cfboost_fit <- function(object, control = boost_control(), data, weights = NULL,
                 df = df_est,            ### estimated degrees of freedom for smooth base-learners
                 coefs = lapply(x[1:length(x)], getcoefs, nu = nu)  ### coefficients
     )
+    ### save learning sample
+    if (control$savedata) RET$data <- object
 
     RET$predict <- function(newdata = NULL, mstop = mstop, ...) {
         if (!is.null(newdata)) {

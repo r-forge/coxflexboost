@@ -6,7 +6,7 @@ bolsTime <- function(...){
     bols(..., timedep=TRUE)
 }
 
-bols <- function(x, z = NULL, xname = NULL, zname = NULL, center = FALSE, df = NULL,
+bols <- function(x, z = NULL, xname = NULL, zname = NULL, center = FALSE,
                  timedep=FALSE, contrasts.arg = "contr.treatment") {
 
     if (is.null(xname)) xname = deparse(substitute(x))

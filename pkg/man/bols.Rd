@@ -10,7 +10,7 @@
 }
 \usage{
 bols(x, z = NULL, xname = NULL, zname = NULL,  center = FALSE,
-     df = NULL, timedep = FALSE, contrasts.arg = "contr.treatment")
+     timedep = FALSE, contrasts.arg = "contr.treatment")
 bolsTime(\dots)
 }
 
@@ -21,10 +21,10 @@ bolsTime(\dots)
   \item{zname}{ optional. Name of the variable given in \code{z}. }
   \item{center}{ logical. If \code{center=TRUE} the intercept in the
     linear model is omitted.}
-  \item{df}{ Used to specify the degrees of freedom via the trace of the
-    hat matrix. Ridge penalization is used for categorical base-learners
-    to obtain df that are smaller than the number of categories minor
-    one.}
+%  \item{df}{ Used to specify the degrees of freedom via the trace of the
+%    hat matrix. Ridge penalization is used for categorical base-learners
+%    to obtain df that are smaller than the number of categories minor
+%    one.}
   \item{timedep}{ logic. If \code{timedep = TRUE} the base-learner is
     taken to be time-dependent, i.e., \code{x} must be the time. For more
     details see below. }

@@ -6,7 +6,8 @@
 }
 \usage{
 boost_control(mstop = 100, nu = 0.1, maxit = 30000, risk = c("inbag","oobag", "none"),
-    which.offset = c("mle", "zero"), savedata = TRUE, trace = TRUE,  parallel = require("multicore"), hardStop = TRUE)
+    which.offset = c("mle", "zero"), savedata = TRUE, trace = TRUE,
+    parallel = require("multicore"), hardStop = TRUE, save_ensembless=TRUE)
 }
 \arguments{
   \item{mstop}{ integer. Initial number of boosting iterations }
@@ -23,15 +24,19 @@ boost_control(mstop = 100, nu = 0.1, maxit = 30000, risk = c("inbag","oobag", "n
   \item{savedata}{ logic. Indicating whether the data should be saved in
     the returned \code{cfboost} object. }
   \item{trace}{ logic. Determining if status information should be
-    printed during estimation of the model. } 
-\item{parallel}{logic. enable parallelization using \pkg{multicore} technology
+    printed during estimation of the model. }
+  \item{parallel}{logic. enable parallelization using \pkg{multicore} technology
     for crossvalidation (in function \code{\link{cv}}). If \pkg{multicore} is available
     parallelization is used per default but can be switched off. }
   \item{hardStop}{ logic. Indicates if the initial value of
-    \code{mstop} is the maximal number of iterations (\code{mstop =
-      TRUE}) or if it should be increased if the algorithm did not
+    \code{mstop} is the maximal number of iterations (\code{mstop = TRUE})
+    or if it should be increased if the algorithm did not
     converge until \code{mstop}. The latter is only possible with
-    \code{risk = "oobag"}. }
+    \code{risk = "oobag"}.}
+  \item{save_ensembless}{ logic. Indicating if the list of
+    coefficients for the selected base-learners should be saved and
+    returned. This list is generally needed but can be suppressed to
+    reduce memory usage (not recommended).}
 }
 \value{
   An object of class \code{boost_control} is returned (as a list).
