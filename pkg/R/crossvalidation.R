@@ -19,7 +19,7 @@ cv.cfboost <- function(object, folds, grid = c(1:mstop(object, opt=FALSE)), ...)
     myapply <- lapply
     if (ctrl$parallel && require("multicore")) {
         if (!multicore:::isChild()) {
-            myapply <- mclapply
+            myapply <- multicore:::mclapply
             if (ctrl$trace) {
                 ctrl$trace <- FALSE
                 cat("\n Running in parallel with `trace = FALSE'\n")
