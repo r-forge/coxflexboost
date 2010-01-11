@@ -13,7 +13,7 @@ boost_control(mstop = 100, nu = 0.1, maxit = 30000, risk = c("inbag","oobag", "n
   \item{mstop}{ integer. Initial number of boosting iterations }
   \item{nu}{ double. Step-size between 0 and 1 }
   \item{maxit}{ integer. Controls the maximum number of iterations that
-    are used for numerical optimazation via \code{\link[=optim]{optim(\dots, method = "BFGS")}}. }
+    are used for numerical optimazation via \code{\link{optim}(\dots, method = "BFGS")}. }
   \item{risk}{ character. Determines how the empirical risk should be
     computed. It can take the values \code{risk = "inbag"}, i.e., the risk is
     computed for the learning sample, \code{risk = "oobag"}, i.e., the risk is
